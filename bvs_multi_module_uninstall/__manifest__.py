@@ -1,22 +1,17 @@
 # -*- coding: utf-8 -*-
 # Copyright 2025-26 Tushar Patel <tusharwork89@gmail.com>
 {
-    "name": "Website Blog Font Countrol",
+    "name": "Multi Module Uninstall",
     "version": "18.0.1.0",
     "category": "Tools",
-    "summary": "Website Blog Font Countrol",
-    "description": "Website Blog Font Countrol",
+    "summary": "Uninsall multiple modules at once",
+    "description": "This module allows you to uninstall multiple modules at once from Odoo.",
     "author": 'Tushar Patel - BitVoyage Solution',
     "website": 'tusharwork89@gmail.com',
-    "depends": ["base","website","website_blog"],
+    "depends": ["base"],
     "data": [
-            "views/website_font_countrol_views.xml"
+            "data/uninstall_delete_action.xml"
     ],
-    'assets': {
-        'web.assets_frontend': [
-            'bvs_website_font_countrol/static/src/js/font_size_change.js',
-        ]
-    },
     "license": "OPL-1",
     "installable": True,
     "auto_install": False,
