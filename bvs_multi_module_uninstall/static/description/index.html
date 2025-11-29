@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Blog Font Control - Odoo Module</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <style>
+    body {
+      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    .module-header {
+      text-align: center;
+      padding: 40px 20px;
+      background-color: #fff;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #eee;
+    }
+    .module-header img {
+      max-height: 80px;
+      margin-bottom: 15px;
+    }
+    .module-header h4 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #28a189;
+      text-transform: capitalize;
+      margin-bottom: 15px;
+    }
+    .module-header p {
+      font-size: 16px;
+      max-width: 700px;
+      margin: 0 auto;
+      color: #555;
+    }
+    .nav-tabs .nav-link {
+      font-weight: 600;
+      border-radius: 0;
+      border: 2px solid #f40004;
+      margin: 0 5px;
+      color: #fff;
+      background-color: #0a7fe9;
+    }
+    .nav-tabs .nav-link.active {
+      background-color: #66dec6;
+      border-color: #66dec6;
+    }
+    .screenshot {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .screenshot img {
+      max-width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #fff;
+      padding: 5px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+<section class="module-header">
+    <div class="container text-center">
+        <h4>Uninstall multiple modules at once</h4>
+        <p>
+            This module simplifies module management in Odoo by allowing you to uninstall multiple modules at once. 
+            Instead of removing each module individually, you can select several at the same time and uninstall them in bulk with a single action.
+        </p>
+        </br>
+        <p>
+            It helps administrators save time, reduce manual effort, and maintain cleaner Odoo environments, especially during testing, development, or system cleanup. 
+            The interface is user friendly and integrates seamlessly with Odoo’s standard Apps menu for easy access.
+        </p>
+    </div>
+</section>
+
+<section class="module-tabs">
+  <div class="container">
+    <ul class="nav nav-tabs justify-content-center" id="moduleTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="screenshots-tab" data-toggle="tab" href="#screenshots" role="tab" aria-controls="screenshots" aria-selected="true">
+          Screenshots
+        </a>
+      </li>
+    </ul>
+
+    <div class="tab-content" id="moduleTabContent">
+      <div class="tab-pane fade show active" id="screenshots" role="tabpanel" aria-labelledby="screenshots-tab">
+        <div class="justify-content-center">
+          <div class="screenshot mb-4">
+            <figure>
+              <img src="img1.png" alt="Normal Font Size" class="img-fluid mb-2" />
+              <figcaption class="text-center text-muted">Action for Uninstall Selected Modules.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr style="border: 1px solid #ddd; margin: 40px 0;" />
+
+<footer class="footer mt-1 bg-light text-center">
+  <div class="container">
+    <img src="logo.png" alt="Company Logo" style="max-height: 150px;" />
+    <p class="text-muted mb-1"><strong>Crafted with passion ❤️✨🛠️</strong></p>
+    <p class="text-muted mb-1">
+      For any questions or support, feel free to contact:<br>
+      <a href="tusharwork89@gmail.com" class="text-primary">tusharwork89@gmail.com</a>
+    </p>
+    <p class="text-muted">&copy; 2025 BitVoyage Solution | All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" ></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" ></script>
+
+</body>
+</html>
+
