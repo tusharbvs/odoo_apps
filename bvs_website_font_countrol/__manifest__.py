@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-# Copyright 2025-26 Tushar Patel <tusharwork89@gmail.com>
+# Copyright 2025-26 BitVoyage Solution <tusharwork89@gmail.com>
 {
     "name": "Website Blog Font Countrol",
     "version": "18.0.1.0",
     "category": "Tools",
     "summary": "Website Blog Font Countrol",
     "description": "Website Blog Font Countrol",
-    "author": 'Tushar Patel - BitVoyage Solution',
+    "author": 'BitVoyage Solution',
     "website": 'tusharwork89@gmail.com',
     "depends": ["base","website","website_blog"],
     "data": [

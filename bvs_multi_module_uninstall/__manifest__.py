@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-# Copyright 2025-26 Tushar Patel <tusharwork89@gmail.com>
+# Copyright 2025-26 BitVoyage Solution <tusharwork89@gmail.com>
 {
     "name": "Multi Module Uninstall",
     "version": "18.0.1.0",
     "category": "Tools",
     "summary": "Uninsall multiple modules at once",
     "description": "This module allows you to uninstall multiple modules at once from Odoo.",
-    "author": 'Tushar Patel - BitVoyage Solution',
+    "author": 'BitVoyage Solution',
     "website": 'tusharwork89@gmail.com',
     "depends": ["base"],
     "data": [
