@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Smart Calculator - Odoo Module</title>
+  <title>Blog Font Control - Odoo Module</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <style>
@@ -11,8 +11,6 @@
       background-color: #f9f9f9;
       color: #333;
     }
-
-    /* ── Header ── */
     .module-header {
       text-align: center;
       padding: 40px 20px;
@@ -20,45 +18,58 @@
       margin-bottom: 30px;
       border-bottom: 2px solid #eee;
     }
+    .module-header img {
+      max-height: 80px;
+      margin-bottom: 15px;
+    }
     .module-header h4 {
       font-size: 28px;
       font-weight: 700;
       color: #28a189;
-      margin-bottom: 12px;
+      text-transform: capitalize;
+      margin-bottom: 15px;
     }
     .module-header h5 {
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 700;
       color: #28a189;
-      margin-bottom: 16px;
+      text-transform: capitalize;
+      margin-bottom: 15px;
     }
-    .module-header > .container > p {
+    .module-header p {
       font-size: 16px;
       max-width: 700px;
       margin: 0 auto;
       color: #555;
     }
 
-    /* ── Key Features list — centered block, disc bullets ── */
-    .features-wrap {
-      display: flex;
-      justify-content: center;
-      margin-top: 8px;
-    }
+    /* Centered pointer list */
     .features-list {
-      list-style: disc;
-      padding-left: 20px;
-      margin: 0;
+      list-style: none;
+      padding: 0;
+      margin: 0 auto;
+      display: inline-block;
       text-align: left;
     }
     .features-list li {
-      font-size: 15px;
+      font-size: 16px;
       color: #555;
-      padding: 5px 0;
-      line-height: 1.6;
+      padding: 6px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .features-list li::before {
+      content: "▶";
+      color: #28a189;
+      font-size: 12px;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+    .features-center-wrap {
+      text-align: center;
     }
 
-    /* ── Tabs ── */
     .nav-tabs .nav-link {
       font-weight: 600;
       border-radius: 0;
@@ -71,51 +82,22 @@
       background-color: #66dec6;
       border-color: #66dec6;
     }
-
-    /* ── Screenshots — side by side ── */
-    .screenshots-row {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 24px;
-    }
-    .screenshot-item {
-      flex: 1 1 calc(50% - 20px);
-      max-width: calc(50% - 20px);
+    .screenshot {
       text-align: center;
+      margin-bottom: 30px;
     }
-    .screenshot-item img {
-      width: 100%;
+    .screenshot img {
+      max-width: 100%;
       border: 1px solid #ddd;
       border-radius: 4px;
       background-color: #fff;
       padding: 5px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
-    .screenshot-item figcaption {
-      margin-top: 8px;
-      font-size: 13px;
-      color: #888;
-    }
-
-    @media (max-width: 640px) {
-      .screenshot-item {
-        flex: 1 1 100%;
-        max-width: 100%;
-      }
-    }
-
-    /* ── Footer ── */
-    footer {
-      margin-top: 40px;
-      padding: 20px 0;
-    }
   </style>
 </head>
 <body>
 
-<!-- Header -->
 <section class="module-header">
   <div class="container text-center">
     <h4>Smart Calculator</h4>
@@ -125,12 +107,10 @@
       calculate with keyboard or mouse, and continue your work without leaving the current screen.
     </p>
   </div>
-
   <br />
-
   <div class="container text-center">
     <h5>Key Features</h5>
-    <div class="features-wrap">
+    <div class="features-center-wrap">
       <ul class="features-list">
         <li>Instant launch with the <strong>`</strong> shortcut key in backend screens.</li>
         <li>Clean floating calculator UI with draggable panel support.</li>
@@ -143,13 +123,11 @@
   </div>
 </section>
 
-<!-- Tab nav -->
 <section class="module-tabs">
   <div class="container">
     <ul class="nav nav-tabs justify-content-center" id="moduleTab" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" id="screenshots-tab" data-toggle="tab" href="#screenshots"
-           role="tab" aria-controls="screenshots" aria-selected="true">
+        <a class="nav-link active" id="screenshots-tab" data-toggle="tab" href="#screenshots" role="tab" aria-controls="screenshots" aria-selected="true">
           Screenshots
         </a>
       </li>
@@ -157,47 +135,47 @@
   </div>
 </section>
 
-<!-- Screenshots -->
 <section class="container">
   <div class="tab-content" id="moduleTabContent">
-    <div class="tab-pane fade show active" id="screenshots" role="tabpanel"
-         aria-labelledby="screenshots-tab">
-
-      <div class="screenshots-row">
-        <div class="screenshot-item">
+    <div class="tab-pane fade show active" id="screenshots" role="tabpanel" aria-labelledby="screenshots-tab">
+      <div class="justify-content-center">
+        <div class="screenshot mb-4">
           <figure>
-            <img src="img1.png" alt="Smart Calculator UI" />
-            <figcaption>Smart Calculator opened from backend with quick input controls</figcaption>
+            <img src="img1.png" alt="Normal Font Size" class="img-fluid mb-2" />
+            <figcaption class="text-center text-muted">
+              Smart Calculator opened from backend with quick input controls
+            </figcaption>
           </figure>
         </div>
-        <div class="screenshot-item">
+        <div class="screenshot mb-4">
           <figure>
-            <img src="img2.png" alt="Calculation History" />
-            <figcaption>Calculation history and reusable entries for faster workflow</figcaption>
+            <img src="img2.png" alt="Increased Font Size" class="img-fluid mb-2" />
+            <figcaption class="text-center text-muted">
+              Calculation history and reusable entries for faster workflow
+            </figcaption>
           </figure>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
 <hr style="border: 1px solid #ddd; margin: 40px 0;" />
 
-<!-- Footer -->
-<footer class="bg-light text-center">
+<footer class="footer mt-1 bg-light text-center">
   <div class="container">
     <p class="text-muted mb-1"><strong>Crafted with passion ❤️✨🛠️</strong></p>
     <p class="text-muted mb-1">
       For any questions or support, feel free to contact:<br>
       <a href="mailto:tusharwork89@gmail.com" class="text-primary">tusharwork89@gmail.com</a>
     </p>
-    <p class="text-muted mb-0">&copy; 2025 BitVoyage Solution | All rights reserved.</p>
+    <p class="text-muted">&copy; 2025 BitVoyage Solution | All rights reserved.</p>
   </div>
 </footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>
