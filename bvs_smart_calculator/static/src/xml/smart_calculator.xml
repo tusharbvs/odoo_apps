@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!--
+        Container: always alive, never unmounts.
+        Passes two distinct close callbacks to the Panel:
+          - hideOnly      → Esc / ` key  (history survives)
+          - closeAndClear → ✕ button     (history wiped)
+        Also passes history array and mutation helpers.
+    -->
+    <t t-name="bvs_smart_calculator.SmartCalculatorContainer">
+        <t t-if="state.isOpen">
+            <SmartCalculatorPanel
+                hideOnly="()      => this.hideOnly()"
+                closeAndClear="() => this.closeAndClear()"
+                history="state.history"
+                addToHistory="(e)  => this.addToHistory(e)"
+                clearHistory="()   => this.clearHistory()"
+            />
+        </t>
+    </t>
+
+    <!--
+        Panel template.
+        ✕ button calls closeAndClear (wipes history).
+        Esc and ` in JS call hideOnly (keeps history).
+    -->
+    <t t-name="bvs_smart_calculator.SmartCalculatorPanel">
+
+        <div class="sc-panel" t-ref="panel">
+
+            <!-- Header / drag handle -->
+            <div class="sc-header" t-on-mousedown="_onDragStart">
+                <div class="sc-header-dots">
+                    <span class="sc-dot sc-dot--red"/>
+                    <span class="sc-dot sc-dot--yellow"/>
+                    <span class="sc-dot sc-dot--green"/>
+                </div>
+                <span class="sc-title">Smart Calculator</span>
+                <!-- ✕ → closeAndClear (wipes history) -->
+                <button class="sc-close-btn"
+                        t-on-click="props.closeAndClear"
+                        title="Close and clear history">✕</button>
+            </div>
+
+            <!-- ZONE 1: HISTORY -->
+            <div class="sc-history">
+                <div class="sc-history-bar">
+                    <span class="sc-history-title">History</span>
+                    <button t-if="props.history.length > 0"
+                            class="sc-history-clear"
+                            t-on-click="clearHistory">Clear</button>
+                </div>
+                <div class="sc-history-tape">
+                    <div t-if="props.history.length === 0" class="sc-history-empty">
+                        No calculations yet
+                    </div>
+                    <t t-foreach="props.history" t-as="item" t-key="item_index">
+                        <div class="sc-history-row"
+                             t-on-click="() => this.recallHistory(item)">
+                            <span class="sc-history-expr" t-esc="item.expr + ' ='"/>
+                            <span class="sc-history-res"  t-esc="item.result"/>
+                        </div>
+                    </t>
+                </div>
+            </div>
+
+            <!-- ZONE 2: DISPLAY -->
+            <div class="sc-display-zone">
+                <div class="sc-expr" t-esc="state.expression"/>
+                <div t-att-class="displayClass" t-esc="formattedDisplay"/>
+                <div class="sc-hint">
+                    <kbd>`</kbd>/<kbd>Esc</kbd> hide · <kbd>✕</kbd> clears history · drag to move
+                </div>
+            </div>
+
+            <!-- ZONE 3: BUTTON GRID -->
+            <div class="sc-grid">
+
+                <button class="sc-btn sc-btn-fn"  t-on-click="clear">C</button>
+                <button class="sc-btn sc-btn-fn"  t-on-click="toggleSign">±</button>
+                <button class="sc-btn sc-btn-fn"  t-on-click="percentage">%</button>
+                <button t-att-class="'sc-btn sc-btn-op' + (isActiveOperator('÷') ? ' sc-btn-op--on' : '')"
+                        t-on-click="() => this.inputOperator('÷')">÷</button>
+
+                <button class="sc-btn sc-btn-num" t-on-click="() => this.inputDigit('7')">7</button>
+                <button class="sc-btn sc-btn-num" t-on-click="() => this.inputDigit('8')">8</button>
+                <button class="sc-btn sc-btn-num" t-on-click="() => this.inputDigit('9')">9</button>
+                <button t-att-class="'sc-btn sc-btn-op' + (isActiveOperator('×') ? ' sc-btn-op--on' : '')"
+                        t-on-click="() => this.inputOperator('×')">×</button>
+
+                <button class="sc-btn sc-btn-num" t-on-click="() => this.inputDigit('4')">4</button>
+                <button class="sc-btn sc-btn-num" t-on-click="() => this.inputDigit('5')">5</button>
+                <button class="sc-btn sc-btn-num" t-on-click="() => this.inputDigit('6')">6</button>
+                <button t-att-class="'sc-btn sc-btn-op' + (isActiveOperator('-') ? ' sc-btn-op--on' : '')"
+                        t-on-click="() => this.inputOperator('-')">−</button>
+
+                <button class="sc-btn sc-btn-num" t-on-click="() => this.inputDigit('1')">1</button>
+                <button class="sc-btn sc-btn-num" t-on-click="() => this.inputDigit('2')">2</button>
+                <button class="sc-btn sc-btn-num" t-on-click="() => this.inputDigit('3')">3</button>
+                <button t-att-class="'sc-btn sc-btn-op' + (isActiveOperator('+') ? ' sc-btn-op--on' : '')"
+                        t-on-click="() => this.inputOperator('+')">+</button>
+
+                <button class="sc-btn sc-btn-num" t-on-click="inputDecimal">.</button>
+                <button class="sc-btn sc-btn-num" t-on-click="() => this.inputDigit('0')">0</button>
+                <button class="sc-btn sc-btn-ce"  t-on-click="clearEntry">CE</button>
+                <button class="sc-btn sc-btn-eq"  t-on-click="calculate">=</button>
+
+            </div>
+        </div>
+
+    </t>
+
+</templates>
