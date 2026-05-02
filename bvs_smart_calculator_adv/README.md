@@ -20,7 +20,7 @@ Advanced floating calculator for the **Odoo 19** backend. Extends **Smart Calcul
 ## Installation
 
 1. Ensure **Smart Calculator** (`bvs_smart_calculator`) is available on your addons path.
-2. Install **Smart Calculator Adv** — Odoo will pull in the base module if needed.
+2. Install **Smart Calculator Adv** - Odoo will pull in the base module if needed.
 
 ## Suite
 
@@ -28,7 +28,7 @@ Install **Smart Calculator Pro** on top when you need the business rail (markup,
 
 ## License
 
-LGPL-3 — see `__manifest__.py`.
+LGPL-3 - see `__manifest__.py`.
 
 ## Contributors
 

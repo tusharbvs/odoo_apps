@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   Smart Calculator Pro — Phase 1 + 2 + 3 CSS  (UI/UX Rev 3)
+   Smart Calculator Pro - Phase 1 + 2 + 3 CSS  (UI/UX Rev 3)
 
    Key structural changes vs Rev 2:
-     • sc-mode-toggle bar REMOVED — toggle now lives inside sc-header
-     • sc-biz-inline panels REMOVED — all biz UI lives in the side panel
+     • sc-mode-toggle bar REMOVED - toggle now lives inside sc-header
+     • sc-biz-inline panels REMOVED - all biz UI lives in the side panel
      • sc-biz-side now has two internal columns:
          [icon col 68px] [expand area 172px] = 240px total when fully open
      • Expand area contains: header, base value, scrollable body, result card
@@ -65,7 +65,7 @@
 .sc-biz-side.sc-biz-side-open     { width: 68px; }
 .sc-biz-side.sc-biz-side-expanded { width: 240px; }
 
-/* Inner flex row — fixed at full 240px so content never reflows */
+/* Inner flex row - fixed at full 240px so content never reflows */
 .sc-biz-side-inner {
     width: 240px;
     height: 100%;
@@ -151,7 +151,7 @@
 .sc-biz-side-btn:hover .fa { opacity: 1; }
 .sc-biz-side-btn:active { transform: scale(0.94); }
 
-/* Active — the expand panel is showing this op */
+/* Active - the expand panel is showing this op */
 .sc-biz-side-btn-active {
     background: rgba(113, 75, 103, 0.68) !important;
     border-color: rgba(155, 105, 140, 0.80) !important;
@@ -570,7 +570,7 @@
 }
 .sc-title .fa { margin-right: 5px; opacity: 0.75; }
 
-/* ── Mode toggle (segmented pill — sits in the header) ────────────────────
+/* ── Mode toggle (segmented pill - sits in the header) ────────────────────
    Replaces the old standalone .sc-mode-toggle bar row.
    ────────────────────────────────────────────────────────────────────────── */
 

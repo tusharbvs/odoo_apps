@@ -429,7 +429,7 @@ class SmartCalculatorPanel extends Component {
     _onMouseUp() { this._drag.active = false; }
 
     // ═══════════════════════════════════════════════════════════════════════════
-    // PHASE 3 — Business operations
+    // PHASE 3 - Business operations
     // ═══════════════════════════════════════════════════════════════════════════
 
     /**
@@ -562,7 +562,7 @@ class SmartCalculatorPanel extends Component {
     }
 
     /**
-     * Apply a tax from the picker (immediate — no separate Apply step).
+     * Apply a tax from the picker (immediate - no separate Apply step).
      * Rate and type come directly from account.tax.
      */
     applyTax(tax) {

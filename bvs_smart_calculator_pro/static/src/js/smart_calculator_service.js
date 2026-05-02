@@ -1,7 +1,7 @@
 /** @odoo-module **/
 
 /**
- * bvs_smart_calculator_tax  — Odoo service (Phase 3)
+ * bvs_smart_calculator_tax  - Odoo service (Phase 3)
  * ══════════════════════════════════════════════════════════════════════════
  *
  * Loads active taxes from account.tax via JSON-RPC and caches the result
@@ -15,9 +15,9 @@
  *   { id, name, amount, amount_type, type_tax_use }
  *
  * amount_type values handled:
- *   "percent" — taxAmount = base × amount / 100
- *   "fixed"   — taxAmount = amount  (flat fee)
- *   others    — the UI shows an "unsupported" error message
+ *   "percent" - taxAmount = base × amount / 100
+ *   "fixed"   - taxAmount = amount  (flat fee)
+ *   others    - the UI shows an "unsupported" error message
  *
  * type_tax_use values used for colour-coding in the picker:
  *   "sale"     → green tint
@@ -68,7 +68,7 @@ const smartCalculatorTaxService = {
                 return taxes;
 
             } catch (err) {
-                // Log but don't crash — the picker will show "No active taxes found."
+                // Log but don't crash - the picker will show "No active taxes found."
                 console.warn("[SmartCalc] Tax RPC failed:", err);
                 _loading = false;
                 _cache   = [];   // cache empty result so we don't hammer on repeated errors

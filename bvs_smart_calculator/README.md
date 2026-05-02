@@ -26,7 +26,7 @@ This module is the base tier. **Smart Calculator Adv** and **Smart Calculator Pr
 
 ## License
 
-LGPL-3 — see `__manifest__.py`.
+LGPL-3 - see `__manifest__.py`.
 
 ## Contributors
 

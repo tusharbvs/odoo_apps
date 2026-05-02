@@ -24,7 +24,7 @@ Professional tier floating calculator for the **Odoo 19** backend. Builds on **S
 
 ## License
 
-**OPL-1** — see `__manifest__.py`. Usage and redistribution are governed by that license.
+**OPL-1** - see `__manifest__.py`. Usage and redistribution are governed by that license.
 
 ## Contributors
 

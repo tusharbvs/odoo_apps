@@ -2,7 +2,7 @@
 <templates xml:space="preserve">
 
     <!--
-        bvs_smart_calculator_pro.SmartCalculatorPanel  — UI/UX Rev 3
+        bvs_smart_calculator_pro.SmartCalculatorPanel  - UI/UX Rev 3
         ══════════════════════════════════════════════════════════════════════
 
         Structural changes vs Rev 2:
@@ -18,10 +18,10 @@
            The outer clips at 0 / 68 / 240px via CSS width animation.
 
         3. Expand area layout (top → bottom, flex column):
-             sc-biz-exp-head  — op name + × close
-             sc-biz-exp-base  — "on X" base value
-             sc-biz-exp-body  — scrollable: op-specific inputs
-             sc-biz-exp-result — result rows, pinned at bottom
+             sc-biz-exp-head  - op name + × close
+             sc-biz-exp-base  - "on X" base value
+             sc-biz-exp-body  - scrollable: op-specific inputs
+             sc-biz-exp-result - result rows, pinned at bottom
 
         4. DRAG targets sc-wrapper (both panels move together).
 
@@ -111,7 +111,7 @@
                         <!-- Scrollable body: op-specific inputs ─────────── -->
                         <div class="sc-biz-exp-body">
 
-                            <!-- ① Markup / Margin / Discount — % input
+                            <!-- ① Markup / Margin / Discount - % input
                                  t-key forces OWL to remount the input when
                                  the op changes, preventing stale DOM values. -->
                             <div t-if="this.state.bizOp === 'markup' or
@@ -137,7 +137,7 @@
 
                             </div>
 
-                            <!-- ② Tax picker — reload + 2-col grid -->
+                            <!-- ② Tax picker - reload + 2-col grid -->
                             <div t-if="this.state.bizOp === 'tax'"
                                  class="sc-biz-exp-tax-wrap">
 
@@ -178,7 +178,7 @@
 
                             </div>
 
-                            <!-- ③ Landed cost — freight / duties / other -->
+                            <!-- ③ Landed cost - freight / duties / other -->
                             <div t-if="this.state.bizOp === 'landed'"
                                  class="sc-biz-exp-landed-wrap">
 

@@ -1,7 +1,7 @@
 /** @odoo-module **/
 
 /**
- * Smart Calculator — Service layer
+ * Smart Calculator - Service layer
  *
  * Phase 1 & 2: All keyboard handling and panel visibility logic lives directly
  * inside SmartCalculatorContainer (smart_calculator_component.js).
@@ -12,6 +12,6 @@
  *   - Currency-aware formatting
  *   - Margin / discount / landed-cost calculation helpers
  *
- * Leave this file in place — it is declared in __manifest__.py assets and
+ * Leave this file in place - it is declared in __manifest__.py assets and
  * its absence would cause a 404 in the asset bundle.
  */

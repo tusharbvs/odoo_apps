@@ -4,7 +4,7 @@
     'name': 'Smart Calculator Pro',
     'version': '19.0.2.0.0',
     'category': 'Productivity',
-    'summary': 'Advanced & business calculator — Adv edition plus tax-aware tools',
+    'summary': 'Advanced & business calculator - Adv edition plus tax-aware tools',
     'description': """
         Builds on Smart Calculator Adv with an enhanced UI and a backend service
         for tax-aware calculations integrated with Accounting where configured.

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright 2026-27 BitVoyage Solution <tusharwork89@gmail.com>
 {
-    'name': 'Smart Calculator Adv',
+    'name': 'Smart Calculator Advanced',
     'version': '19.0.2.0.0',
     'category': 'Tools',
     'summary': 'Advanced calculator with brackets, memory & history timestamps',

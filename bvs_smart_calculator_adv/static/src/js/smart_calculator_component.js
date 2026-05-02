@@ -39,7 +39,7 @@ const MODES = [
 ];
 
 // ─── SmartCalculatorPanel ─────────────────────────────────────────────────────
-// MUST be defined before SmartCalculatorContainer — OWL class references are
+// MUST be defined before SmartCalculatorContainer - OWL class references are
 // not hoisted.  Defining Container first causes ReferenceError at runtime.
 
 class SmartCalculatorPanel extends Component {
@@ -74,7 +74,7 @@ class SmartCalculatorPanel extends Component {
             error:        false,
         });
 
-        // Drag state — direct mutation (NOT useState) so dragging never triggers
+        // Drag state - direct mutation (NOT useState) so dragging never triggers
         // OWL re-renders.  Gives smooth 60 fps movement.
         this._drag    = { active: false, startX: 0, startY: 0, origX: 0, origY: 0 };
         this._panelEl = null;

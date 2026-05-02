@@ -81,7 +81,7 @@
             </div>
 
             <!-- ══════════════════════════════════════════════════════════════
-                 BASIC MODE — Phase 1 layout (4 columns)
+                 BASIC MODE - Phase 1 layout (4 columns)
                  Row 1  │ C    ±    %    ÷
                  Row 2  │ 7    8    9    ×
                  Row 3  │ 4    5    6    -
@@ -124,7 +124,7 @@
             </div>
 
             <!-- ══════════════════════════════════════════════════════════════
-                 ADVANCED MODE — Phase 2 layout (5 columns)
+                 ADVANCED MODE - Phase 2 layout (5 columns)
                  Row 1  │ MC   MR   M+   M-   C
                  Row 2  │ (    )    ⌫    CE   ÷
                  Row 3  │ 7    8    9    ±    ×
