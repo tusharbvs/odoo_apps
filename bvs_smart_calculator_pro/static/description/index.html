@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Smart Calculator Pro - Odoo Module</title>
+  <title>Smart Calculator Pro- Odoo Module</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <style>
@@ -18,6 +18,10 @@
       margin-bottom: 30px;
       border-bottom: 2px solid #eee;
     }
+    .module-header img {
+      max-height: 80px;
+      margin-bottom: 15px;
+    }
     .module-header h4 {
       font-size: 28px;
       font-weight: 700;
@@ -32,20 +36,14 @@
       text-transform: capitalize;
       margin-bottom: 15px;
     }
-    .module-header .lead-block {
-      font-size: 17px;
-      max-width: 780px;
+    .module-header p {
+      font-size: 16px;
+      max-width: 700px;
       margin: 0 auto;
-      color: #444;
-      line-height: 1.55;
+      color: #555;
     }
-    .module-header .sub-lead {
-      font-size: 15px;
-      max-width: 720px;
-      margin: 16px auto 0;
-      color: #666;
-      line-height: 1.5;
-    }
+
+    /* Centered pointer list */
     .features-list {
       list-style: none;
       padding: 0;
@@ -71,28 +69,7 @@
     .features-center-wrap {
       text-align: center;
     }
-    .feature-columns .card {
-      border: 1px solid #e8e8e8;
-      border-radius: 6px;
-      height: 100%;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-    }
-    .feature-columns .card-title {
-      font-size: 17px;
-      font-weight: 700;
-      color: #28a189;
-      margin-bottom: 12px;
-    }
-    .feature-columns ul {
-      padding-left: 18px;
-      margin-bottom: 0;
-      color: #555;
-      font-size: 15px;
-      line-height: 1.55;
-    }
-    .feature-columns li {
-      margin-bottom: 8px;
-    }
+
     .nav-tabs .nav-link {
       font-weight: 600;
       border-radius: 0;
@@ -105,56 +82,17 @@
       background-color: #66dec6;
       border-color: #66dec6;
     }
-    .gallery-section-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: #217065;
-      text-align: center;
-      margin: 2rem 0 1rem;
-      padding-bottom: 8px;
-      border-bottom: 2px solid #66dec6;
-    }
-    .gallery-section-title:first-of-type {
-      margin-top: 0;
-    }
     .screenshot {
       text-align: center;
-      margin-bottom: 28px;
+      margin-bottom: 30px;
     }
     .screenshot img {
       max-width: 100%;
       border: 1px solid #ddd;
-      border-radius: 6px;
+      border-radius: 4px;
       background-color: #fff;
-      padding: 6px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    .screenshot figcaption {
-      max-width: 640px;
-      margin-left: auto;
-      margin-right: auto;
-      margin-top: 10px;
-      font-size: 15px;
-      line-height: 1.45;
-    }
-    .note-box {
-      background: #fff;
-      border-left: 4px solid #28a189;
-      padding: 14px 18px;
-      margin: 20px auto;
-      max-width: 720px;
-      font-size: 15px;
-      color: #444;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-    }
-    .req-list dt {
-      font-weight: 700;
-      color: #217065;
-      margin-top: 12px;
-    }
-    .req-list dd {
-      margin-bottom: 0;
-      color: #555;
+      padding: 5px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
   </style>
 </head>
@@ -181,26 +119,23 @@
         <li>Toggle visibility anywhere in the backend with the <strong>`</strong> (backtick) shortcut.</li>
         <li><strong>Basic</strong> and <strong>Adv</strong> modes share one refined header-no bulky extra chrome.</li>
         <li><strong>Biz</strong> strip opens after you evaluate: Markup, Margin, Discount, Tax, Landed-with expandable detail pane.</li>
+        <li>Whole calculator + business panel drag together</li>
       </ul>
     </div>
   </div>
 </section>
 
+
 <section class="module-tabs">
   <div class="container">
-    <ul class="nav nav-tabs justify-content-center flex-wrap" id="moduleTab" role="tablist">
+    <ul class="nav nav-tabs justify-content-center" id="moduleTab" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" id="screenshots-tab" data-toggle="tab" href="#pane-screenshots" role="tab" aria-controls="pane-screenshots" aria-selected="true">
+        <a class="nav-link active" id="screenshots-tab" data-toggle="tab" href="#screenshots" role="tab" aria-controls="screenshots" aria-selected="true">
           Screenshots
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="highlights-tab" data-toggle="tab" href="#pane-highlights" role="tab" aria-controls="pane-highlights">
-          Highlights &amp; workflow
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="requirements-tab" data-toggle="tab" href="#pane-requirements" role="tab" aria-controls="pane-requirements">
+        <a class="nav-link" id="requirements-tab" data-toggle="tab" href="#pane-requirements" role="tab" aria-controls="pane-requirements" aria-selected="false">
           Requirements
         </a>
       </li>
@@ -208,14 +143,11 @@
   </div>
 </section>
 
-<section class="container pb-4">
-  <div class="tab-content py-4" id="moduleTabContent">
-
-    <!-- --- Screenshots --- -->
-    <div class="tab-pane fade show active" id="pane-screenshots" role="tabpanel" aria-labelledby="screenshots-tab">
-
-      <h6 class="gallery-section-title">Overview &amp; everyday use</h6>
-      <div class="screenshot">
+<section class="container">
+  <div class="tab-content" id="moduleTabContent">
+    <div class="tab-pane fade show active" id="screenshots" role="tabpanel" aria-labelledby="screenshots-tab">
+      <div class="justify-content-center">
+        <div class="screenshot">
         <figure>
           <img src="img1.png" alt="Smart Calculator Pro opened over Odoo backend" class="img-fluid" loading="lazy" />
           <figcaption class="text-muted">
@@ -234,7 +166,7 @@
         </figure>
       </div>
 
-      <h6 class="gallery-section-title">Modes &amp; advanced keypad</h6>
+      <h6><b>Modes &amp; advanced keypad</b></h6>
       <div class="screenshot">
         <figure>
           <img src="img3.png" alt="Basic mode segmented header" class="img-fluid" loading="lazy" />
@@ -253,7 +185,7 @@
         </figure>
       </div>
 
-      <h6 class="gallery-section-title">Business rail &amp; expandable workspace</h6>
+      <h6><b>Business rail &amp; expandable workspace</b></h6>
       <div class="screenshot">
         <figure>
           <img src="img5.png" alt="Business icons strip after evaluation" class="img-fluid" loading="lazy" />
@@ -273,7 +205,7 @@
         </figure>
       </div>
 
-      <h6 class="gallery-section-title">Tax &amp; landed-cost style flows</h6>
+      <h6><b>Tax &amp; landed-cost style flows</b></h6>
       <div class="screenshot">
         <figure>
           <img src="img7.png" alt="Tax helper tied to accounting data" class="img-fluid" loading="lazy" />
@@ -292,91 +224,38 @@
           </figcaption>
         </figure>
       </div>
-
-      <div class="note-box">
-      
-      </div>
     </div>
-
-    <!-- --- Highlights --- -->
-    <div class="tab-pane fade" id="pane-highlights" role="tabpanel" aria-labelledby="highlights-tab">
-      <div class="row feature-columns">
-        <div class="col-md-4 mb-4">
-          <div class="card p-3">
-            <div class="card-body">
-              <h6 class="card-title">Calculator core</h6>
-              <ul>
-                <li>OWL-backed panel with resilient keyboard routing outside editable fields.</li>
-                <li>History remembers expressions with timestamps for recall.</li>
-                <li>Error paths handle divide-by-zero and invalid tokens cleanly.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card p-3">
-            <div class="card-body">
-              <h6 class="card-title">Business workspace</h6>
-              <ul>
-                <li>Integrated Biz rail replaces stray inline drawers-everything docks beside the keypad.</li>
-                <li>Percent-driven ops reuse one adaptive body keyed per scenario.</li>
-                <li>Rail animates between collapsed icons and full-width inputs.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card p-3">
-            <div class="card-body">
-              <h6 class="card-title">Finance-ready hooks</h6>
-              <ul>
-                <li><code>bvs_smart_calculator_tax</code> service placeholder grows with Phase 3 behaviours.</li>
-                <li>Module depends on <strong>account</strong> so fiscal artefacts stay first-class dependencies.</li>
-                <li>Asset bundle replaces Adv layers cleanly-no duplicate templates loaded.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="note-box mb-0">
-        Recommended screenshot storyboard for reviewers:
-        (1) hero shell on dashboard,
-        (2) shortcut callout,
-        (3–4) Basic vs Adv grids,
-        (5–6) Biz rail closed vs expanded markup/margin/discount,
-        (7–8) Tax selection + Landed totals mirroring real customer scenarios.
-      </div>
+    <div>
+        Upgrade path: install <strong>Smart Calculator Pro</strong> when you need the Biz rail (markup, margin, discount, tax, landed cost) layered on top of these modes.
     </div>
-
-    <!-- --- Requirements --- -->
-    <div class="tab-pane fade" id="pane-requirements" role="tabpanel" aria-labelledby="requirements-tab">
-      <div class="container" style="max-width: 640px;">
-        <dl class="req-list">
-          <dt>Odoo edition</dt>
-          <dd>Designed for Odoo 19 backend (<code>web</code> assets pipeline).</dd>
-          <dt>Dependencies</dt>
-          <dd><code>bvs_smart_calculator_adv</code>, <code>web</code>, <code>account</code>.</dd>
-          <dt>Installation path</dt>
-          <dd>Add the addons directory containing <code>bvs_smart_calculator_pro</code>, update Apps list, install Pro-Adv and base calculator modules resolve automatically.</dd>
-          <dt>Support</dt>
-          <dd>Questions or customization requests: <a href="mailto:tusharwork89@gmail.com">tusharwork89@gmail.com</a></dd>
-        </dl>
-      </div>
-    </div>
-
   </div>
+
+  <div class="tab-pane fade" id="pane-requirements" role="tabpanel" aria-labelledby="requirements-tab">
+  <div class="container" style="max-width: 640px;">
+    <dl class="req-list">
+      <dt>Odoo edition</dt>
+      <dd>Designed for Odoo 19 backend (<code>web</code> assets pipeline).</dd>
+      <dt>Dependencies</dt>
+      <dd><code>bvs_smart_calculator_adv</code>, <code>web</code>, <code>account</code>.</dd>
+      <dt>Installation path</dt>
+      <dd>Add the addons directory containing <code>bvs_smart_calculator_pro</code>, update Apps list, install Pro-Adv and base calculator modules resolve automatically.</dd>
+      <dt>Support</dt>
+      <dd>Questions or customization requests: <a href="mailto:tusharwork89@gmail.com">tusharwork89@gmail.com</a></dd>
+    </dl>
+  </div>
+</div>
 </section>
 
 <hr style="border: 1px solid #ddd; margin: 40px 0;" />
 
-<footer class="footer mt-1 bg-light text-center py-4">
+<footer class="footer mt-1 bg-light text-center">
   <div class="container">
     <p class="text-muted mb-1"><strong>Crafted with passion ❤️✨🛠️</strong></p>
     <p class="text-muted mb-1">
       For any questions or support, feel free to contact:<br>
       <a href="mailto:tusharwork89@gmail.com" class="text-primary">tusharwork89@gmail.com</a>
     </p>
-    <p class="text-muted mb-0">&copy; 2026 BitVoyage Solution | All rights reserved.</p>
+    <p class="text-muted">&copy; 2025 BitVoyage Solution | All rights reserved.</p>
   </div>
 </footer>
 

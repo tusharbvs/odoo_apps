@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Blog Font Control - Odoo Module</title>
+  <title>Smart Calculator Advanced- Odoo Module</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <style>
@@ -104,7 +104,7 @@
     <p>
       Advanced edition for the Odoo backend: press <strong>`</strong> (backtick) to open the floating calculator,
       switch between <strong>Basic</strong> and <strong>Advanced</strong> layouts, use memory keys and brackets,
-      and browse a timestamped history tape—all without leaving your current Odoo screen.
+      and browse a timestamped history tape-all without leaving your current Odoo screen.
     </p>
   </div>
   <br />
@@ -128,6 +128,11 @@
       <li class="nav-item">
         <a class="nav-link active" id="screenshots-tab" data-toggle="tab" href="#screenshots" role="tab" aria-controls="screenshots" aria-selected="true">
           Screenshots
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="requirements-tab" data-toggle="tab" href="#pane-requirements" role="tab" aria-controls="pane-requirements" aria-selected="false">
+          Requirements
         </a>
       </li>
     </ul>
@@ -156,10 +161,25 @@
         </div>
       </div>
     </div>
+
+  
+    <div class="tab-pane fade" id="pane-requirements" role="tabpanel" aria-labelledby="requirements-tab">
+      <div class="container" style="max-width: 640px;">
+        <dl class="req-list">
+          <dt>Odoo edition</dt>
+          <dd>Odoo 19 backend (<code>web.assets_backend</code>).</dd>
+          <dt>Dependencies</dt>
+          <dd><code>bvs_smart_calculator</code>, <code>web</code>.</dd>
+          <dt>Installation path</dt>
+          <dd>Add the addons directory containing <code>bvs_smart_calculator_adv</code>, update Apps, install Adv-the base Smart Calculator module installs automatically.</dd>
+          <dt>Support</dt>
+          <dd><a href="mailto:tusharwork89@gmail.com">tusharwork89@gmail.com</a></dd>
+        </dl>
+      </div>
+    </div>
     <div>
         Upgrade path: install <strong>Smart Calculator Pro</strong> when you need the Biz rail (markup, margin, discount, tax, landed cost) layered on top of these modes.
     </div>
-  </div>
 </section>
 
 <hr style="border: 1px solid #ddd; margin: 40px 0;" />
