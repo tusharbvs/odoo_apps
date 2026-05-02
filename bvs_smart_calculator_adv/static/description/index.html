@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Smart Calculator - Odoo Module</title>
+  <title>Smart Calculator Adv - Odoo Module</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <style>
@@ -17,10 +17,6 @@
       background-color: #fff;
       margin-bottom: 30px;
       border-bottom: 2px solid #eee;
-    }
-    .module-header img {
-      max-height: 80px;
-      margin-bottom: 15px;
     }
     .module-header h4 {
       font-size: 28px;
@@ -38,7 +34,7 @@
     }
     .module-header p {
       font-size: 16px;
-      max-width: 700px;
+      max-width: 720px;
       margin: 0 auto;
       color: #555;
       line-height: 1.55;
@@ -159,11 +155,11 @@
 
 <section class="module-header">
   <div class="container text-center">
-    <h4>Smart Calculator</h4>
+    <h4>Smart Calculator Adv</h4>
     <p>
-      Smart Calculator brings a fast floating calculator inside the Odoo backend.
-      Press <strong>`</strong> (backtick) from anywhere on backend pages to open it instantly,
-      calculate with keyboard or mouse, and continue your work without leaving the current screen.
+      Advanced edition for the Odoo backend: press <strong>`</strong> (backtick) to open the floating calculator,
+      switch between <strong>Basic</strong> and <strong>Advanced</strong> layouts, use memory keys and brackets,
+      and browse a timestamped history tape—all without leaving your current Odoo screen.
     </p>
   </div>
   <br />
@@ -171,12 +167,11 @@
     <h5>Key Features</h5>
     <div class="features-center-wrap">
       <ul class="features-list">
-        <li>Instant launch with the <strong>`</strong> shortcut key in backend screens.</li>
-        <li>Clean floating calculator UI with draggable panel support.</li>
-        <li>Keyboard and button input for numbers, operators, Enter, and Backspace.</li>
-        <li>History panel with quick recall of previous calculations.</li>
-        <li>Hide with <strong>Esc</strong> or <strong>`</strong>; close can clear history from the header actions.</li>
-        <li>Handles edge cases like division by zero with clear error feedback.</li>
+        <li>Same instant <strong>`</strong> shortcut as the base Smart Calculator.</li>
+        <li>Basic mode (compact grid) and Advanced mode (MC/MR/M+/M-, brackets, wider keypad).</li>
+        <li>Expression-style evaluation with guarded parsing and readable errors.</li>
+        <li>History tape with timestamps; recall a row with one click.</li>
+        <li>Draggable panel; hide with <strong>Esc</strong> or <strong>`</strong>; full close clears history when intended.</li>
       </ul>
     </div>
   </div>
@@ -209,29 +204,29 @@
 
     <div class="tab-pane fade show active" id="pane-screenshots" role="tabpanel" aria-labelledby="screenshots-tab">
       <p class="text-center text-muted mb-4 px-2">
-        Add <code>img1.png</code> and <code>img2.png</code> beside this file for the App Store carousel and inline gallery below.
+        Use <code>img1.png</code> / <code>img2.png</code> beside this file (add <code>img3.png</code>+ by copying a screenshot block if you capture extra angles).
       </p>
 
-      <h6 class="gallery-section-title">In action</h6>
+      <h6 class="gallery-section-title">Modes</h6>
       <div class="screenshot">
         <figure>
-          <img src="img1.png" alt="Smart Calculator opened in Odoo backend" class="img-fluid" loading="lazy" />
+          <img src="img1.png" alt="Smart Calculator Adv — Basic mode" class="img-fluid" loading="lazy" />
           <figcaption class="text-muted">
-            Calculator floating above a backend view—keyboard-ready keypad and compact header.
+            <strong>Basic</strong> mode—fast arithmetic with the familiar compact keypad for everyday totals.
           </figcaption>
         </figure>
       </div>
       <div class="screenshot">
         <figure>
-          <img src="img2.png" alt="Calculation history in Smart Calculator" class="img-fluid" loading="lazy" />
+          <img src="img2.png" alt="Smart Calculator Adv — Advanced mode" class="img-fluid" loading="lazy" />
           <figcaption class="text-muted">
-            History tape for recent expressions and results—tap a row to reuse values in your flow.
+            <strong>Advanced</strong> mode—brackets, memory row, badges for open parentheses / stored memory.
           </figcaption>
         </figure>
       </div>
 
       <div class="note-box mb-0">
-        Need brackets, memory keys, or business pricing tools? Install <strong>Smart Calculator Adv</strong> or <strong>Pro</strong> from the same suite—they extend this base module without breaking shortcuts.
+        Upgrade path: install <strong>Smart Calculator Pro</strong> when you need the Biz rail (markup, margin, discount, tax, landed cost) layered on top of these modes.
       </div>
     </div>
 
@@ -240,11 +235,11 @@
         <div class="col-md-4 mb-4">
           <div class="card p-3">
             <div class="card-body">
-              <h6 class="card-title">Floating experience</h6>
+              <h6 class="card-title">Modes &amp; memory</h6>
               <ul>
-                <li>Global backtick toggle keeps focus on the form or list underneath.</li>
-                <li>Draggable chrome matches Odoo backend density.</li>
-                <li>Esc minimizes distraction without dumping unsaved Odoo edits.</li>
+                <li>Segmented header switches Basic vs Adv without reloading Odoo routes.</li>
+                <li>Advanced grid exposes bracket hygiene indicators + undo-friendly deletes.</li>
+                <li>Memory keys behave like desk calculators buyers already trust.</li>
               </ul>
             </div>
           </div>
@@ -252,11 +247,11 @@
         <div class="col-md-4 mb-4">
           <div class="card p-3">
             <div class="card-body">
-              <h6 class="card-title">Input &amp; history</h6>
+              <h6 class="card-title">History workflow</h6>
               <ul>
-                <li>Buttons mirror laptop keypad habits (Enter as equals, Backspace-aware).</li>
-                <li>Expression display stays readable during chained operations.</li>
-                <li>History survives hide/show cycles via container-owned state.</li>
+                <li>Timestamps contextualise each row when auditing quotes.</li>
+                <li>Tap-to-recall pushes values straight into the active expression.</li>
+                <li>History honours hide/show cycles thanks to container-owned arrays.</li>
               </ul>
             </div>
           </div>
@@ -264,18 +259,18 @@
         <div class="col-md-4 mb-4">
           <div class="card p-3">
             <div class="card-body">
-              <h6 class="card-title">Technical footprint</h6>
+              <h6 class="card-title">Deployment notes</h6>
               <ul>
-                <li>Pure OWL components registered under <code>main_components</code>.</li>
-                <li>Ships through <code>web.assets_backend</code>—no extra views required.</li>
-                <li>LGPL-3 base ideal for mixing into customer deployments.</li>
+                <li>Assets remove the base calculator bundle entries before injecting Adv templates.</li>
+                <li>No duplicate OWL roots—still one <code>SmartCalculatorContainer</code> registration.</li>
+                <li>Perfect middle tier between free base and finance-heavy Pro release.</li>
               </ul>
             </div>
           </div>
         </div>
       </div>
       <div class="note-box mb-0">
-        Workflow tip: pin users who live in spreadsheets—once muscle memory adopts <strong>`</strong>, adoption sticks faster than launching OS calculators.
+        Demo storyline for screenshots: (1) CSR quoting on a CRM form with Basic mode, (2) purchaser stacking parentheses + memory on a PO line using Advanced mode.
       </div>
     </div>
 
@@ -283,11 +278,11 @@
       <div class="container" style="max-width: 640px;">
         <dl class="req-list">
           <dt>Odoo edition</dt>
-          <dd>Targets Odoo 19 backend assets (<code>web</code> module).</dd>
+          <dd>Odoo 19 backend (<code>web.assets_backend</code>).</dd>
           <dt>Dependencies</dt>
-          <dd><code>web</code> only.</dd>
+          <dd><code>bvs_smart_calculator</code>, <code>web</code>.</dd>
           <dt>Installation path</dt>
-          <dd>Add the addons path containing <code>bvs_smart_calculator</code>, update the Apps list, install <strong>Smart Calculator</strong>.</dd>
+          <dd>Add the addons directory containing <code>bvs_smart_calculator_adv</code>, update Apps, install Adv—the base Smart Calculator module installs automatically.</dd>
           <dt>Support</dt>
           <dd><a href="mailto:tusharwork89@gmail.com">tusharwork89@gmail.com</a></dd>
         </dl>

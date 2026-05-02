@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!--
+        bvs_smart_calculator_pro.SmartCalculatorPanel  — UI/UX Rev 3
+        ══════════════════════════════════════════════════════════════════════
+
+        Structural changes vs Rev 2:
+
+        1. MODE TOGGLE moved into sc-header
+           The standalone .sc-mode-toggle bar is gone. The header now holds:
+             [icon · title]  [Basic | Adv segmented pill]  [- ×]
+
+        2. ALL BUSINESS UI is inside the side panel (sc-biz-side).
+           sc-biz-inline panels below the calculator are REMOVED entirely.
+           The side panel has two internal columns:
+             [icon col 68px] [expand area 172px]  = 240px when fully open
+           The outer clips at 0 / 68 / 240px via CSS width animation.
+
+        3. Expand area layout (top → bottom, flex column):
+             sc-biz-exp-head  — op name + × close
+             sc-biz-exp-base  — "on X" base value
+             sc-biz-exp-body  — scrollable: op-specific inputs
+             sc-biz-exp-result — result rows, pinned at bottom
+
+        4. DRAG targets sc-wrapper (both panels move together).
+
+        OWL v2: all handlers use () => this.method() arrow syntax.
+    -->
+
+    <t t-name="bvs_smart_calculator_pro.SmartCalculatorPanel">
+
+        <div class="sc-wrapper">
+
+            <!-- ════════════════════════════════════════════════════════════
+                 BUSINESS SIDE PANEL
+                 Inner layout: [icon col 68px][expand area 172px]
+                 Outer width: 0 → 68px (justEvaled) → 240px (bizOp active)
+                 ════════════════════════════════════════════════════════ -->
+            <div class="sc-biz-side"
+                 t-att-class="{
+                     'sc-biz-side-open':     this.state.justEvaled,
+                     'sc-biz-side-expanded': this.bizOpActive
+                 }">
+
+                <div class="sc-biz-side-inner">
+
+                    <!-- ── Icon column (leftmost 68px, always visible) ──── -->
+                    <div class="sc-biz-icon-col">
+
+                        <div class="sc-biz-icon-col-header">
+                            <i class="fa fa-briefcase"/>
+                            <span class="sc-biz-icon-badge">Biz</span>
+                        </div>
+
+                        <div class="sc-biz-icon-spacer"/>
+
+                        <button class="sc-biz-side-btn"
+                                t-att-class="{'sc-biz-side-btn-active': this.state.bizOp === 'markup'}"
+                                t-on-click="() => this.activateBizOp('markup')">
+                            <i class="fa fa-arrow-up"/>Markup
+                        </button>
+
+                        <button class="sc-biz-side-btn"
+                                t-att-class="{'sc-biz-side-btn-active': this.state.bizOp === 'margin'}"
+                                t-on-click="() => this.activateBizOp('margin')">
+                            <i class="fa fa-percent"/>Margin
+                        </button>
+
+                        <button class="sc-biz-side-btn"
+                                t-att-class="{'sc-biz-side-btn-active': this.state.bizOp === 'discount'}"
+                                t-on-click="() => this.activateBizOp('discount')">
+                            <i class="fa fa-tag"/>Disc
+                        </button>
+
+                        <button class="sc-biz-side-btn"
+                                t-att-class="{'sc-biz-side-btn-active': this.state.bizOp === 'tax'}"
+                                t-on-click="() => this.activateBizOp('tax')">
+                            <i class="fa fa-file-text-o"/>Tax
+                        </button>
+
+                        <button class="sc-biz-side-btn"
+                                t-att-class="{'sc-biz-side-btn-active': this.state.bizOp === 'landed'}"
+                                t-on-click="() => this.activateBizOp('landed')">
+                            <i class="fa fa-ship"/>Landed
+                        </button>
+
+                        <div class="sc-biz-icon-spacer"/>
+
+                    </div><!-- /sc-biz-icon-col -->
+
+                    <!-- ── Expand area (172px, visible when bizOp is set) ─ -->
+                    <div class="sc-biz-expand-area">
+
+                        <!-- Header: op name + close -->
+                        <div class="sc-biz-exp-head">
+                            <span class="sc-biz-exp-op-name" t-esc="this.opLabel"/>
+                            <button class="sc-biz-x-btn"
+                                    t-on-click="() => this.cancelBizOp()">
+                                <i class="fa fa-times"/>
+                            </button>
+                        </div>
+
+                        <!-- Base value display -->
+                        <div class="sc-biz-exp-base">
+                            <span class="sc-biz-exp-base-lbl">on</span>
+                            <span class="sc-biz-exp-base-val"
+                                  t-esc="this.fmtResult(this.bizBase)"/>
+                        </div>
+
+                        <!-- Scrollable body: op-specific inputs ─────────── -->
+                        <div class="sc-biz-exp-body">
+
+                            <!-- ① Markup / Margin / Discount — % input
+                                 t-key forces OWL to remount the input when
+                                 the op changes, preventing stale DOM values. -->
+                            <div t-if="this.state.bizOp === 'markup' or
+                                        this.state.bizOp === 'margin' or
+                                        this.state.bizOp === 'discount'"
+                                 class="sc-biz-exp-pct-wrap"
+                                 t-key="this.state.bizOp">
+
+                                <div class="sc-biz-exp-pct-row">
+                                    <input type="number" min="0" max="999"
+                                           class="sc-biz-exp-pct-input"
+                                           placeholder="0"
+                                           t-att-value="this.state.bizPct"
+                                           t-on-input="(e) => this.onBizPctInput(e.target.value)"
+                                           t-on-keydown="(e) => this.onPctKeydown(e)"/>
+                                    <span class="sc-biz-exp-pct-sym">%</span>
+                                </div>
+
+                                <button class="sc-biz-exp-apply-btn"
+                                        t-on-click="() => this.applyBizOp()">
+                                    <i class="fa fa-check"/> Apply
+                                </button>
+
+                            </div>
+
+                            <!-- ② Tax picker — reload + 2-col grid -->
+                            <div t-if="this.state.bizOp === 'tax'"
+                                 class="sc-biz-exp-tax-wrap">
+
+                                <div class="sc-biz-exp-tax-toolbar">
+                                    <button class="sc-biz-reload-btn"
+                                            title="Reload taxes"
+                                            t-on-click="() => this.reloadTaxes()">
+                                        <i class="fa fa-refresh"/>
+                                    </button>
+                                </div>
+
+                                <div t-if="this.state.taxesLoading"
+                                     class="sc-biz-exp-status">
+                                    <i class="fa fa-spinner fa-spin"/> Loading…
+                                </div>
+                                <div t-elif="!this.state.taxes.length"
+                                     class="sc-biz-exp-status">
+                                    No active taxes.<br/>Check Accounting → Taxes.
+                                </div>
+                                <div t-else="" class="sc-biz-exp-tax-grid">
+                                    <t t-foreach="this.state.taxes"
+                                       t-as="tax" t-key="tax.id">
+                                        <button class="sc-biz-exp-tax-btn"
+                                                t-att-class="{
+                                                    'sc-biz-tax-sale':     tax.type_tax_use === 'sale',
+                                                    'sc-biz-tax-purchase': tax.type_tax_use === 'purchase'
+                                                }"
+                                                t-on-click="() => this.applyTax(tax)">
+                                            <span class="sc-biz-exp-tax-rate"
+                                                  t-esc="tax.amount_type === 'percent'
+                                                             ? tax.amount + '%'
+                                                             : '#' + tax.amount"/>
+                                            <span class="sc-biz-exp-tax-name"
+                                                  t-esc="tax.name"/>
+                                        </button>
+                                    </t>
+                                </div>
+
+                            </div>
+
+                            <!-- ③ Landed cost — freight / duties / other -->
+                            <div t-if="this.state.bizOp === 'landed'"
+                                 class="sc-biz-exp-landed-wrap">
+
+                                <div class="sc-biz-exp-landed-row">
+                                    <label class="sc-biz-exp-lbl">Freight</label>
+                                    <input type="number" min="0"
+                                           class="sc-biz-exp-field"
+                                           placeholder="0"
+                                           t-att-value="this.state.bizLanded.freight"
+                                           t-on-input="(e) => this.onLandedInput('freight', e.target.value)"/>
+                                </div>
+                                <div class="sc-biz-exp-landed-row">
+                                    <label class="sc-biz-exp-lbl">Duties</label>
+                                    <input type="number" min="0"
+                                           class="sc-biz-exp-field"
+                                           placeholder="0"
+                                           t-att-value="this.state.bizLanded.duties"
+                                           t-on-input="(e) => this.onLandedInput('duties', e.target.value)"/>
+                                </div>
+                                <div class="sc-biz-exp-landed-row">
+                                    <label class="sc-biz-exp-lbl">Other</label>
+                                    <input type="number" min="0"
+                                           class="sc-biz-exp-field"
+                                           placeholder="0"
+                                           t-att-value="this.state.bizLanded.other"
+                                           t-on-input="(e) => this.onLandedInput('other', e.target.value)"/>
+                                </div>
+
+                                <button class="sc-biz-exp-apply-btn"
+                                        t-on-click="() => this.applyBizOp()">
+                                    <i class="fa fa-check"/> Calculate
+                                </button>
+
+                            </div>
+
+                        </div><!-- /sc-biz-exp-body -->
+
+                        <!-- Result card (pinned at bottom of expand area) -->
+                        <div t-if="this.state.bizResult"
+                             class="sc-biz-exp-result">
+
+                            <div t-if="this.state.bizResult.error"
+                                 class="sc-biz-exp-result-error">
+                                <i class="fa fa-exclamation-triangle"/>
+                                &#160;<t t-esc="this.state.bizResult.error"/>
+                            </div>
+
+                            <t t-if="this.state.bizResult.lines">
+                                <t t-foreach="this.state.bizResult.lines"
+                                   t-as="line" t-key="line_index">
+                                    <div class="sc-biz-exp-result-row"
+                                         t-att-class="{
+                                             'sc-biz-exp-result-total':
+                                                 line_index === this.state.bizResult.lines.length - 1
+                                         }">
+                                        <span class="sc-biz-exp-result-lbl"
+                                              t-esc="line.label"/>
+                                        <span class="sc-biz-exp-result-val"
+                                              t-esc="line.value"/>
+                                    </div>
+                                </t>
+                            </t>
+
+                        </div><!-- /sc-biz-exp-result -->
+
+                    </div><!-- /sc-biz-expand-area -->
+
+                </div><!-- /sc-biz-side-inner -->
+            </div><!-- /sc-biz-side -->
+
+
+            <!-- ════════════════════════════════════════════════════════════
+                 CALCULATOR PANEL
+                 ════════════════════════════════════════════════════════ -->
+            <div class="sc-panel" role="dialog" aria-label="Smart Calculator">
+
+                <!-- ── Header: title · mode toggle · -/× ─────────────────
+                     _onDragStart walks up to .sc-wrapper so both panels
+                     drag as one unit.
+                     ────────────────────────────────────────────────────── -->
+                <div class="sc-header" t-on-mousedown="this._onDragStart">
+
+                    <span class="sc-title">
+                        <i class="fa fa-calculator"/>&#160;Smart Calc
+                    </span>
+
+                    <!-- Segmented mode toggle (replaces the old middle bar) -->
+                    <div class="sc-header-toggle">
+                        <span class="sc-header-toggle-opt"
+                              t-att-class="{'sc-header-toggle-opt-active': this.state.mode === 'basic'}"
+                              t-on-click="() => this.switchMode('basic')">Basic</span>
+                        <span class="sc-header-toggle-opt"
+                              t-att-class="{'sc-header-toggle-opt-active': this.state.mode === 'advanced'}"
+                              t-on-click="() => this.switchMode('advanced')">Adv</span>
+                    </div>
+
+                    <div class="sc-header-actions">
+                        <button class="sc-icon-btn"
+                                title="Hide  ( ` )"
+                                t-on-click="() => this.props.onHide()">
+                            <i class="fa fa-minus"/>
+                        </button>
+                        <button class="sc-icon-btn sc-icon-btn-close"
+                                title="Close &amp; clear history"
+                                t-on-click="() => this.props.onClose()">
+                            <i class="fa fa-times"/>
+                        </button>
+                    </div>
+
+                </div><!-- /sc-header -->
+
+                <!-- ── Display ───────────────────────────────────────────── -->
+                <div class="sc-display">
+                    <div t-if="this.state.mode === 'advanced'"
+                         class="sc-display-meta">
+                        <span t-if="this.state.hasMemory"
+                              class="sc-mem-badge"
+                              t-esc="this.memDisplay"/>
+                        <span t-if="this.state.openBrackets > 0"
+                              class="sc-bracket-badge"
+                              t-esc="this.bracketIndicator"/>
+                    </div>
+                    <div class="sc-expr-line" t-esc="this.displayExpression"/>
+                    <div class="sc-main-value" t-esc="this.displayValue"/>
+                </div>
+
+                <!-- ── History tape ──────────────────────────────────────── -->
+                <div t-if="this.props.history.length" class="sc-history">
+                    <t t-foreach="this.props.history"
+                       t-as="entry" t-key="entry_index">
+                        <div class="sc-history-row"
+                             t-on-click="() => this.recallHistory(entry)">
+                            <span class="sc-history-time"
+                                  t-esc="this.formatTime(entry.timestamp)"/>
+                            <span class="sc-history-expr"
+                                  t-esc="entry.expression"/>
+                            <span class="sc-history-result"
+                                  t-esc="'= ' + this.fmtResult(entry.result)"/>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- ════════════════════════════════════════════════════════
+                     BASIC MODE
+                     ════════════════════════════════════════════════════ -->
+                <div t-if="this.state.mode === 'basic'"
+                     class="sc-buttons sc-grid-4">
+
+                    <button class="sc-btn sc-btn-clear"  t-on-click="() => this.onButton('C')">C</button>
+                    <button class="sc-btn sc-btn-util"   t-on-click="() => this.onButton('\u00b1')">&#177;</button>
+                    <button class="sc-btn sc-btn-util"   t-on-click="() => this.onButton('%')">%</button>
+                    <button class="sc-btn sc-btn-op"     t-on-click="() => this.onButton('\u00f7')">&#247;</button>
+
+                    <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('7')">7</button>
+                    <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('8')">8</button>
+                    <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('9')">9</button>
+                    <button class="sc-btn sc-btn-op"     t-on-click="() => this.onButton('\u00d7')">&#215;</button>
+
+                    <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('4')">4</button>
+                    <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('5')">5</button>
+                    <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('6')">6</button>
+                    <button class="sc-btn sc-btn-op"     t-on-click="() => this.onButton('\u2212')">&#8722;</button>
+
+                    <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('1')">1</button>
+                    <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('2')">2</button>
+                    <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('3')">3</button>
+                    <button class="sc-btn sc-btn-op"     t-on-click="() => this.onButton('+')">+</button>
+
+                    <button class="sc-btn sc-btn-util"   t-on-click="() => this.onButton('.')">.</button>
+                    <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('0')">0</button>
+                    <button class="sc-btn sc-btn-util"   t-on-click="() => this.onButton('CE')">CE</button>
+                    <button class="sc-btn sc-btn-equals" t-on-click="() => this.onButton('=')">=</button>
+
+                </div>
+
+                <!-- ════════════════════════════════════════════════════════
+                     ADVANCED MODE
+                     ════════════════════════════════════════════════════ -->
+                <div t-if="this.state.mode === 'advanced'"
+                     class="sc-buttons sc-grid-5">
+
+                    <button class="sc-btn sc-btn-mem"
+                            t-att-disabled="!this.state.hasMemory ? 'disabled' : undefined"
+                            t-on-click="() => this.onButton('MC')">MC</button>
+                    <button class="sc-btn sc-btn-mem"
+                            t-att-disabled="!this.state.hasMemory ? 'disabled' : undefined"
+                            t-on-click="() => this.onButton('MR')">MR</button>
+                    <button class="sc-btn sc-btn-mem"    t-on-click="() => this.onButton('M+')">M+</button>
+                    <button class="sc-btn sc-btn-mem"    t-on-click="() => this.onButton('M\u2212')">M&#8722;</button>
+                    <button class="sc-btn sc-btn-clear"  t-on-click="() => this.onButton('C')">C</button>
+
+                    <button class="sc-btn sc-btn-bracket"
+                            t-on-click="() => this.onButton('(')">(</button>
+                    <button class="sc-btn sc-btn-bracket"
+                            t-att-disabled="this.state.openBrackets === 0 ? 'disabled' : undefined"
+                            t-on-click="() => this.onButton(')')">)</button>
+                    <button class="sc-btn sc-btn-util"   t-on-click="() => this.onButton('\u232b')">&#x232b;</button>
+                    <button class="sc-btn sc-btn-util"   t-on-click="() => this.onButton('CE')">CE</button>
+                    <button class="sc-btn sc-btn-op"     t-on-click="() => this.onButton('\u00f7')">&#247;</button>
+
+                    <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('7')">7</button>
+                    <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('8')">8</button>
+                    <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('9')">9</button>
+                    <button class="sc-btn sc-btn-util"   t-on-click="() => this.onButton('\u00b1')">&#177;</button>
+                    <button class="sc-btn sc-btn-op"     t-on-click="() => this.onButton('\u00d7')">&#215;</button>
+
+                    <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('4')">4</button>
+                    <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('5')">5</button>
+                    <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('6')">6</button>
+                    <button class="sc-btn sc-btn-util"   t-on-click="() => this.onButton('%')">%</button>
+                    <button class="sc-btn sc-btn-op"     t-on-click="() => this.onButton('\u2212')">&#8722;</button>
+
+                    <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('1')">1</button>
+                    <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('2')">2</button>
+                    <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('3')">3</button>
+                    <button class="sc-btn sc-btn-util"   t-on-click="() => this.onButton('.')">.</button>
+                    <button class="sc-btn sc-btn-op"     t-on-click="() => this.onButton('+')">+</button>
+
+                    <button class="sc-btn sc-btn-num sc-btn-zero-5"
+                            t-on-click="() => this.onButton('0')">0</button>
+                    <button class="sc-btn sc-btn-equals"
+                            t-on-click="() => this.onButton('=')">=</button>
+                </div>
+
+            </div><!-- /sc-panel -->
+
+        </div><!-- /sc-wrapper -->
+
+    </t>
+
+    <!-- Container (unchanged) -->
+    <t t-name="bvs_smart_calculator_pro.SmartCalculatorContainer">
+        <SmartCalculatorPanel
+            t-if="state.visible"
+            history="state.history"
+            onAddHistory.bind="addToHistory"
+            onHide.bind="hideOnly"
+            onClose.bind="closeAndClear"
+        />
+    </t>
+
+</templates>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!--
+        bvs_smart_calculator_adv.SmartCalculatorPanel
+        ══════════════════════════════════════════════════════════════════════
+        Mode switcher sits between the header and the display.
+        Button grid is conditional on this.state.mode:
+          "basic"    → 4-column Phase 1 layout
+          "advanced" → 5-column Phase 2 layout (brackets + memory)
+          "business" → disabled pill (Phase 3, coming soon)
+
+        OWL v2 RULE: every handler must reference `this.` explicitly.
+        Without it the compiled closure loses its receiver and crashes with
+        "Cannot read properties of undefined (reading 'state')".
+    -->
+    <t t-name="bvs_smart_calculator_adv.SmartCalculatorPanel">
+        <div class="sc-panel" role="dialog" aria-label="Smart Calculator">
+
+            <!-- ── Header / Drag handle ──────────────────────────────────── -->
+            <div class="sc-header" t-on-mousedown="this._onDragStart">
+                <span class="sc-title">
+                    <i class="fa fa-calculator"/>&#160;Smart Calc
+                </span>
+                <div class="sc-header-toggle">
+                    <span class="sc-header-toggle-opt"
+                          t-att-class="{'sc-header-toggle-opt-active': this.state.mode === 'basic'}"
+                          t-on-click="() => this.switchMode('basic')">Basic</span>
+                    <span class="sc-header-toggle-opt"
+                          t-att-class="{'sc-header-toggle-opt-active': this.state.mode === 'advanced'}"
+                          t-on-click="() => this.switchMode('advanced')">Adv</span>
+                </div>
+                <div class="sc-header-actions">
+                    <button class="sc-icon-btn"
+                            title="Hide  ( ` )"
+                            t-on-click="() => this.props.onHide()">
+                        <i class="fa fa-minus"/>
+                    </button>
+                    <button class="sc-icon-btn sc-icon-btn-close"
+                            title="Close &amp; clear history"
+                            t-on-click="() => this.props.onClose()">
+                        <i class="fa fa-times"/>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ── Display ───────────────────────────────────────────────── -->
+            <div class="sc-display">
+
+                <!-- Meta row visible only in advanced mode -->
+                <div t-if="this.state.mode === 'advanced'" class="sc-display-meta">
+                    <span t-if="this.state.hasMemory"
+                          class="sc-mem-badge"
+                          t-esc="this.memDisplay"/>
+                    <span t-if="this.state.openBrackets > 0"
+                          class="sc-bracket-badge"
+                          t-esc="this.bracketIndicator"/>
+                </div>
+
+                <!-- Expression line (committed tokens) -->
+                <div class="sc-expr-line" t-esc="this.displayExpression"/>
+
+                <!-- Main value -->
+                <div class="sc-main-value" t-esc="this.displayValue"/>
+
+            </div>
+
+            <!-- ── History tape ───────────────────────────────────────────── -->
+            <div t-if="this.props.history.length" class="sc-history">
+                <t t-foreach="this.props.history" t-as="entry" t-key="entry_index">
+                    <div class="sc-history-row"
+                         t-on-click="() => this.recallHistory(entry)">
+                        <span class="sc-history-time"
+                              t-esc="this.formatTime(entry.timestamp)"/>
+                        <span class="sc-history-expr"
+                              t-esc="entry.expression"/>
+                        <span class="sc-history-result"
+                              t-esc="'= ' + this.fmtResult(entry.result)"/>
+                    </div>
+                </t>
+            </div>
+
+            <!-- ══════════════════════════════════════════════════════════════
+                 BASIC MODE — Phase 1 layout (4 columns)
+                 Row 1  │ C    ±    %    ÷
+                 Row 2  │ 7    8    9    ×
+                 Row 3  │ 4    5    6    -
+                 Row 4  │ 1    2    3    +
+                 Row 5  │ .  [ 0×2 ] CE  =
+                 ══════════════════════════════════════════════════════════ -->
+            <div t-if="this.state.mode === 'basic'" class="sc-buttons sc-grid-4">
+
+                <!-- Row 1 -->
+                <button class="sc-btn sc-btn-clear"  t-on-click="() => this.onButton('C')">C</button>
+                <button class="sc-btn sc-btn-util"   t-on-click="() => this.onButton('\u00b1')">&#177;</button>
+                <button class="sc-btn sc-btn-util"   t-on-click="() => this.onButton('%')">%</button>
+                <button class="sc-btn sc-btn-op"     t-on-click="() => this.onButton('\u00f7')">&#247;</button>
+
+                <!-- Row 2 -->
+                <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('7')">7</button>
+                <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('8')">8</button>
+                <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('9')">9</button>
+                <button class="sc-btn sc-btn-op"     t-on-click="() => this.onButton('\u00d7')">&#215;</button>
+
+                <!-- Row 3 -->
+                <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('4')">4</button>
+                <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('5')">5</button>
+                <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('6')">6</button>
+                <button class="sc-btn sc-btn-op"     t-on-click="() => this.onButton('\u2212')">&#8722;</button>
+
+                <!-- Row 4 -->
+                <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('1')">1</button>
+                <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('2')">2</button>
+                <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('3')">3</button>
+                <button class="sc-btn sc-btn-op"     t-on-click="() => this.onButton('+')">+</button>
+
+                <!-- Row 5 -->
+                <button class="sc-btn sc-btn-util"   t-on-click="() => this.onButton('.')">.</button>
+                <button class="sc-btn sc-btn-num"
+                                                     t-on-click="() => this.onButton('0')">0</button>
+                <button class="sc-btn sc-btn-util"   t-on-click="() => this.onButton('CE')">CE</button>
+                <button class="sc-btn sc-btn-equals" t-on-click="() => this.onButton('=')">=</button>
+
+            </div>
+
+            <!-- ══════════════════════════════════════════════════════════════
+                 ADVANCED MODE — Phase 2 layout (5 columns)
+                 Row 1  │ MC   MR   M+   M-   C
+                 Row 2  │ (    )    ⌫    CE   ÷
+                 Row 3  │ 7    8    9    ±    ×
+                 Row 4  │ 4    5    6    %    -
+                 Row 5  │ 1    2    3    .    +
+                 Row 6  │ [ 0×3 ]           [ =×2 ]
+                 ══════════════════════════════════════════════════════════ -->
+            <div t-if="this.state.mode === 'advanced'" class="sc-buttons sc-grid-5">
+
+                <!-- Row 1: Memory -->
+                <button class="sc-btn sc-btn-mem"
+                        t-att-disabled="!this.state.hasMemory ? 'disabled' : undefined"
+                        t-on-click="() => this.onButton('MC')">MC</button>
+
+                <button class="sc-btn sc-btn-mem"
+                        t-att-disabled="!this.state.hasMemory ? 'disabled' : undefined"
+                        t-on-click="() => this.onButton('MR')">MR</button>
+
+                <button class="sc-btn sc-btn-mem"    t-on-click="() => this.onButton('M+')">M+</button>
+                <button class="sc-btn sc-btn-mem"    t-on-click="() => this.onButton('M\u2212')">M&#8722;</button>
+                <button class="sc-btn sc-btn-clear"  t-on-click="() => this.onButton('C')">C</button>
+
+                <!-- Row 2: Brackets + delete + ÷ -->
+                <button class="sc-btn sc-btn-bracket"
+                        t-on-click="() => this.onButton('(')">(</button>
+
+                <button class="sc-btn sc-btn-bracket"
+                        t-att-disabled="this.state.openBrackets === 0 ? 'disabled' : undefined"
+                        t-on-click="() => this.onButton(')')">)</button>
+
+                <button class="sc-btn sc-btn-util"   t-on-click="() => this.onButton('\u232b')">&#x232b;</button>
+                <button class="sc-btn sc-btn-util"   t-on-click="() => this.onButton('CE')">CE</button>
+                <button class="sc-btn sc-btn-op"     t-on-click="() => this.onButton('\u00f7')">&#247;</button>
+
+                <!-- Row 3 -->
+                <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('7')">7</button>
+                <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('8')">8</button>
+                <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('9')">9</button>
+                <button class="sc-btn sc-btn-util"   t-on-click="() => this.onButton('\u00b1')">&#177;</button>
+                <button class="sc-btn sc-btn-op"     t-on-click="() => this.onButton('\u00d7')">&#215;</button>
+
+                <!-- Row 4 -->
+                <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('4')">4</button>
+                <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('5')">5</button>
+                <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('6')">6</button>
+                <button class="sc-btn sc-btn-util"   t-on-click="() => this.onButton('%')">%</button>
+                <button class="sc-btn sc-btn-op"     t-on-click="() => this.onButton('\u2212')">&#8722;</button>
+
+                <!-- Row 5 -->
+                <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('1')">1</button>
+                <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('2')">2</button>
+                <button class="sc-btn sc-btn-num"    t-on-click="() => this.onButton('3')">3</button>
+                <button class="sc-btn sc-btn-util"   t-on-click="() => this.onButton('.')">.</button>
+                <button class="sc-btn sc-btn-op"     t-on-click="() => this.onButton('+')">+</button>
+
+                <!-- Row 6 -->
+                <button class="sc-btn sc-btn-num sc-btn-zero-5"
+                        t-on-click="() => this.onButton('0')">0</button>
+                <button class="sc-btn sc-btn-equals"
+                        t-on-click="() => this.onButton('=')">=</button>
+
+            </div>
+
+        </div>
+    </t>
+
+    <!-- Container: panel is t-if so calculator state resets on each open;
+         history (in Container) survives hide/show cycles. -->
+    <t t-name="bvs_smart_calculator_adv.SmartCalculatorContainer">
+        <SmartCalculatorPanel
+            t-if="state.visible"
+            history="state.history"
+            onAddHistory.bind="addToHistory"
+            onHide.bind="hideOnly"
+            onClose.bind="closeAndClear"
+        />
+    </t>
+
+</templates>

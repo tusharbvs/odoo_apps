@@ -93,7 +93,7 @@
                 <button class="sc-btn sc-btn-num" t-on-click="() => this.inputDigit('5')">5</button>
                 <button class="sc-btn sc-btn-num" t-on-click="() => this.inputDigit('6')">6</button>
                 <button t-att-class="'sc-btn sc-btn-op' + (isActiveOperator('-') ? ' sc-btn-op--on' : '')"
-                        t-on-click="() => this.inputOperator('-')">−</button>
+                        t-on-click="() => this.inputOperator('-')">-</button>
 
                 <button class="sc-btn sc-btn-num" t-on-click="() => this.inputDigit('1')">1</button>
                 <button class="sc-btn sc-btn-num" t-on-click="() => this.inputDigit('2')">2</button>

@@ -1,0 +1,312 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Smart Calculator — Phase 2 CSS  (mode switcher edition)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Panel container ─────────────────────────────────────────────────────── */
+
+.sc-panel {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: clamp(380px, 66vw, 470px);
+    z-index: 9999;
+    border-radius: 14px;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+
+    background: linear-gradient(180deg, rgba(28, 33, 45, 0.92) 0%, rgba(21, 24, 34, 0.95) 100%);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.45),
+        0 3px  10px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+
+.sc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 12px;
+    cursor: grab;
+    background: rgba(113, 75, 103, 0.95);
+}
+
+.sc-header:active { cursor: grabbing; }
+
+.sc-title {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+}
+
+.sc-title .fa { margin-right: 6px; opacity: 0.8; }
+
+.sc-header-actions { display: flex; gap: 4px; }
+
+.sc-icon-btn {
+    width: 24px; height: 24px;
+    border: none; border-radius: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white; font-size: 11px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+}
+
+.sc-icon-btn:hover                   { background: rgba(255, 255, 255, 0.28); }
+.sc-icon-btn.sc-icon-btn-close:hover { background: rgba(220, 53, 69, 0.75); }
+
+/* ── Mode switcher bar ───────────────────────────────────────────────────── */
+
+.sc-mode-bar {
+    display: flex;
+    gap: 4px;
+    padding: 7px 8px;
+    background: rgba(0, 0, 0, 0.45);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.sc-mode-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 5px 4px;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.50);
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    position: relative;
+    white-space: nowrap;
+}
+
+.sc-mode-btn .fa {
+    font-size: 10px;
+    opacity: 0.8;
+}
+
+/* Hover — only non-disabled, non-active buttons */
+.sc-mode-btn:not(.sc-mode-active):not(.sc-mode-disabled):hover {
+    background: rgba(255, 255, 255, 0.10);
+    color: rgba(255, 255, 255, 0.75);
+    border-color: rgba(255, 255, 255, 0.22);
+}
+
+/* Active pill — Odoo purple highlight */
+.sc-mode-btn.sc-mode-active {
+    background: rgba(113, 75, 103, 0.80);
+    border-color: rgba(113, 75, 103, 1);
+    color: white;
+    font-weight: 700;
+}
+
+/* Disabled pill — greyed out, not clickable */
+.sc-mode-btn.sc-mode-disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+    border-style: dashed;
+}
+
+/* "Soon" badge on disabled pill */
+.sc-mode-soon {
+    font-size: 8.5px;
+    font-weight: 700;
+    color: #fbbf24;
+    background: rgba(251, 191, 36, 0.18);
+    padding: 1px 4px;
+    border-radius: 4px;
+    letter-spacing: 0.2px;
+}
+
+/* ── Display area ─────────────────────────────────────────────────────────── */
+
+.sc-display {
+    background: rgba(0, 0, 0, 0.60);
+    padding: 10px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 3px;
+    min-height: 112px;
+    text-align: right;
+    color: white;
+}
+
+/* Meta row (advanced mode only) */
+.sc-display-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 18px;
+}
+
+.sc-mem-badge {
+    font-size: 10.5px; font-weight: 700; color: #c4b5fd;
+    background: rgba(167, 139, 250, 0.18);
+    padding: 1px 6px; border-radius: 5px;
+}
+
+.sc-bracket-badge {
+    font-size: 12px; font-weight: 700; color: #fbbf24;
+    letter-spacing: 3px; margin-left: auto;
+}
+
+/* Expression line */
+.sc-expr-line {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.45);
+    min-height: 17px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    direction: rtl; text-align: left;
+}
+
+/* Main value */
+.sc-main-value {
+    font-size: 34px; font-weight: 300; letter-spacing: -1px;
+    color: white; line-height: 1.1;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* ── History tape ─────────────────────────────────────────────────────────── */
+
+.sc-history {
+    background: rgba(0, 0, 0, 0.38);
+    max-height: 120px; overflow-y: auto;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.sc-history::-webkit-scrollbar       { width: 3px; }
+.sc-history::-webkit-scrollbar-track { background: transparent; }
+.sc-history::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+
+.sc-history-row {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 12px; cursor: pointer; font-size: 11px;
+    color: rgba(255, 255, 255, 0.55);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    transition: background 0.1s, color 0.1s;
+}
+.sc-history-row:hover { background: rgba(113, 75, 103, 0.38); color: rgba(255,255,255,0.9); }
+
+.sc-history-time {
+    font-size: 10px; color: rgba(255,255,255,0.30);
+    min-width: 46px; flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+}
+.sc-history-expr   { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: right; }
+.sc-history-result { flex-shrink: 0; font-size: 12px; font-weight: 700; color: #c4b5fd; }
+
+/* ── Button grid shared base ─────────────────────────────────────────────── */
+
+.sc-buttons {
+    gap: 7px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.28);
+    display: grid;
+}
+
+/* 4-column grid — Basic mode (Phase 1 proportions) */
+.sc-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* 5-column grid — Advanced mode */
+.sc-grid-5 { grid-template-columns: repeat(5, 1fr); }
+
+/* ── Base button ─────────────────────────────────────────────────────────── */
+
+.sc-btn {
+    height: 52px;
+    border: none; border-radius: 10px;
+    font-size: 15px; font-weight: 500;
+    cursor: pointer; color: white; outline: none;
+    display: flex; align-items: center; justify-content: center;
+    transition: filter 0.1s, opacity 0.1s;
+    position: relative; overflow: hidden;
+}
+
+.sc-btn::after {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(255,255,255,0);
+    transition: background 0.1s; border-radius: inherit; pointer-events: none;
+}
+.sc-btn:active::after { background: rgba(255,255,255,0.18); }
+
+/* ── Button flavours ─────────────────────────────────────────────────────── */
+
+.sc-btn-num                    { background: rgba(255,255,255,0.10); }
+.sc-btn-num:hover              { background: rgba(255,255,255,0.18); }
+
+.sc-btn-op                     { background: rgba(113,75,103,0.75); font-size: 18px; }
+.sc-btn-op:hover               { background: rgba(113,75,103,1); }
+
+.sc-btn-util                   { background: rgba(255,255,255,0.07); font-size: 13px; color: rgba(255,255,255,0.82); }
+.sc-btn-util:hover             { background: rgba(255,255,255,0.14); }
+
+.sc-btn-clear                  { background: rgba(220,53,69,0.60); font-weight: 700; letter-spacing: 0.5px; }
+.sc-btn-clear:hover            { background: rgba(220,53,69,0.88); }
+
+/* Memory — soft purple-violet (advanced mode) */
+.sc-btn-mem                    { background: rgba(167,139,250,0.14); color: #c4b5fd; font-size: 11px; font-weight: 700; letter-spacing: 0.3px; }
+.sc-btn-mem:hover:not(:disabled) { background: rgba(167,139,250,0.30); }
+.sc-btn-mem:disabled           { opacity: 0.28; cursor: not-allowed; }
+
+/* Brackets — amber (advanced mode) */
+.sc-btn-bracket                { background: rgba(251,191,36,0.14); color: #fbbf24; font-size: 18px; font-weight: 600; }
+.sc-btn-bracket:hover:not(:disabled) { background: rgba(251,191,36,0.28); }
+.sc-btn-bracket:disabled       { opacity: 0.28; cursor: not-allowed; }
+
+/* Equals */
+.sc-btn-equals                 { background: rgba(113,75,103,0.88); font-size: 22px; font-weight: 700; }
+.sc-btn-equals:hover           { background: rgba(113,75,103,1); }
+
+/* ── Spanning cells ──────────────────────────────────────────────────────── */
+
+/* Basic mode: 0 spans 2 columns (same as Phase 1) */
+.sc-grid-4 .sc-btn-zero-4  { grid-column: span 2; }
+
+/* Advanced mode: 0 spans 3 columns, = spans 2 */
+.sc-grid-5 .sc-btn-zero-5  { grid-column: span 3; }
+.sc-grid-5 .sc-btn-equals  { grid-column: span 2; }
+
+/* ── Coming soon placeholder (Phase 3) ───────────────────────────────────── */
+
+.sc-coming-soon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 36px 20px;
+    color: rgba(255, 255, 255, 0.35);
+    text-align: center;
+}
+
+.sc-coming-soon .fa {
+    font-size: 32px;
+    color: rgba(113, 75, 103, 0.55);
+}
+
+.sc-coming-soon p {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.sc-coming-soon small {
+    font-size: 11px;
+    color: #fbbf24;
+    background: rgba(251, 191, 36, 0.12);
+    padding: 2px 10px;
+    border-radius: 20px;
+}
