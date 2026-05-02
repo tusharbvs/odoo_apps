@@ -90,17 +90,67 @@
     .feature-columns li {
       margin-bottom: 8px;
     }
-    .nav-tabs .nav-link {
+    /* CSS-only tabs: works on Odoo App Store where external JS is stripped */
+    .css-tabs {
+      --tab-bg: #0a7fe9;
+      --tab-border: #f40004;
+      --tab-active-bg: #66dec6;
+      --tab-active-border: #66dec6;
+    }
+    .css-tab-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    .css-tab-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      border-bottom: 1px solid #dee2e6;
+    }
+    .css-tab-nav .css-tab-btn {
+      display: inline-block;
       font-weight: 600;
       border-radius: 0;
-      border: 2px solid #f40004;
-      margin: 0 5px;
+      border: 2px solid var(--tab-border);
+      margin: 0 5px -1px;
+      padding: 0.5rem 1rem;
       color: #fff;
-      background-color: #0a7fe9;
+      background-color: var(--tab-bg);
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      user-select: none;
     }
-    .nav-tabs .nav-link.active {
-      background-color: #66dec6;
-      border-color: #66dec6;
+    .css-tab-nav .css-tab-btn:hover {
+      color: #fff;
+      opacity: 0.92;
+    }
+    #tab-screenshots:checked ~ .css-tab-nav label[for="tab-screenshots"],
+    #tab-highlights:checked ~ .css-tab-nav label[for="tab-highlights"],
+    #tab-requirements:checked ~ .css-tab-nav label[for="tab-requirements"] {
+      background-color: var(--tab-active-bg);
+      border-color: var(--tab-active-border);
+    }
+    .css-tab-panel {
+      display: none;
+      padding-top: 1.5rem;
+      padding-bottom: 0.25rem;
+    }
+    #tab-screenshots:checked ~ .css-tab-panels .css-tab-panel--screenshots,
+    #tab-highlights:checked ~ .css-tab-panels .css-tab-panel--highlights,
+    #tab-requirements:checked ~ .css-tab-panels .css-tab-panel--requirements {
+      display: block;
     }
     .gallery-section-title {
       font-size: 18px;
@@ -182,32 +232,21 @@
   </div>
 </section>
 
-<section class="module-tabs">
-  <div class="container">
-    <ul class="nav nav-tabs justify-content-center flex-wrap" id="moduleTab" role="tablist">
-      <li class="nav-item">
-        <a class="nav-link active" id="screenshots-tab" data-toggle="tab" href="#pane-screenshots" role="tab" aria-controls="pane-screenshots" aria-selected="true">
-          Screenshots
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="highlights-tab" data-toggle="tab" href="#pane-highlights" role="tab" aria-controls="pane-highlights">
-          Highlights &amp; workflow
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="requirements-tab" data-toggle="tab" href="#pane-requirements" role="tab" aria-controls="pane-requirements">
-          Requirements
-        </a>
-      </li>
-    </ul>
-  </div>
-</section>
+<section class="module-tabs pb-4">
+  <div class="container css-tabs" role="region" aria-label="Module details">
+    <input class="css-tab-input" type="radio" name="module-desc-tab" id="tab-screenshots" checked />
+    <input class="css-tab-input" type="radio" name="module-desc-tab" id="tab-highlights" />
+    <input class="css-tab-input" type="radio" name="module-desc-tab" id="tab-requirements" />
 
-<section class="container pb-4">
-  <div class="tab-content py-4" id="moduleTabContent">
+    <div class="css-tab-nav" role="tablist">
+      <label class="css-tab-btn" for="tab-screenshots" role="tab">Screenshots</label>
+      <label class="css-tab-btn" for="tab-highlights" role="tab">Highlights &amp; workflow</label>
+      <label class="css-tab-btn" for="tab-requirements" role="tab">Requirements</label>
+    </div>
 
-    <div class="tab-pane fade show active" id="pane-screenshots" role="tabpanel" aria-labelledby="screenshots-tab">
+    <div class="css-tab-panels py-4" id="moduleTabContent">
+
+    <div class="css-tab-panel css-tab-panel--screenshots" id="pane-screenshots" role="tabpanel" aria-labelledby="tab-screenshots">
 
       <h6 class="gallery-section-title">In action</h6>
       <div class="screenshot">
@@ -232,7 +271,7 @@
       </div>
     </div>
 
-    <div class="tab-pane fade" id="pane-highlights" role="tabpanel" aria-labelledby="highlights-tab">
+    <div class="css-tab-panel css-tab-panel--highlights" id="pane-highlights" role="tabpanel" aria-labelledby="tab-highlights">
       <div class="row feature-columns">
         <div class="col-md-4 mb-4">
           <div class="card p-3">
@@ -276,7 +315,7 @@
       </div>
     </div>
 
-    <div class="tab-pane fade" id="pane-requirements" role="tabpanel" aria-labelledby="requirements-tab">
+    <div class="css-tab-panel css-tab-panel--requirements" id="pane-requirements" role="tabpanel" aria-labelledby="tab-requirements">
       <div class="container" style="max-width: 640px;">
         <dl class="req-list">
           <dt>Odoo edition</dt>
@@ -291,6 +330,7 @@
       </div>
     </div>
 
+    </div>
   </div>
 </section>
 
@@ -306,10 +346,6 @@
     <p class="text-muted mb-0">&copy; 2026 BitVoyage Solution | All rights reserved.</p>
   </div>
 </footer>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 </html>
